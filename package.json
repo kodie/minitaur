@@ -1,0 +1,43 @@
+{
+  "name": "minitaur",
+  "version": "0.0.1",
+  "description": "The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.",
+  "keywords": [
+    "alert",
+    "close",
+    "hidden",
+    "hide",
+    "html",
+    "javascript",
+    "js",
+    "menu",
+    "modal",
+    "no-jquery",
+    "open",
+    "prompt",
+    "toggle",
+    "vanilla"
+  ],
+  "author": {
+    "name": "Kodie Grantham",
+    "email": "kodie.grantham@gmail.com",
+    "url": "https://kodieg.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kodie/minitaur.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kodie/minitaur/issues"
+  },
+  "homepage": "https://kodie.github.io/minitaur",
+  "main": "minitaur.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "uglifyjs minitaur.js --comments /^!/ --compress --mangle --output dist/minitaur.min.js --source-map \"url='minitaur.min.js.map'\" --verbose",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.10.4"
+  }
+}

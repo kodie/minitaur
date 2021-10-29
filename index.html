@@ -1,0 +1,318 @@
+<!doctype html>
+<html>
+  <head>
+    <title>minitaur - The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+    <style type="text/css">
+      body {
+        background-color: #e9ecef;
+        padding: 2rem;
+
+        /* For testing positioning on odd sized pages */
+        /* height: 5000px;
+        width: 5000px; */
+      }
+
+      a {
+        color: #5185b3;
+        text-decoration: underline;
+      }
+
+      .github-fork-ribbon:before,
+      .btn-primary {
+        background-color: #5185b3;
+      }
+
+      header {
+        margin-bottom: 6rem;
+      }
+
+      footer {
+        padding: 1rem 0;
+      }
+
+      .container {
+        text-align: center;
+      }
+
+      #main .container {
+        background-color: #ffffff;
+        padding: 2rem;
+        max-width: 600px;
+      }
+
+      #main .container {
+        margin: 4rem auto;
+      }
+
+      section ~ section {
+        margin-top: 4rem;
+      }
+
+      label ~ label {
+        margin-left: 1rem;
+      }
+
+      .minitaur {
+        transition: opacity .25s ease, left .25s ease, top .25s ease;
+      }
+
+      .minitaur[data-minitaur-taking-over],
+      .minitaur-backdrop {
+        transition: opacity .25s ease;
+      }
+
+      .minitaur.closing,
+      .minitaur.opening,
+      .minitaur-backdrop.closing,
+      .minitaur-backdrop.opening {
+        opacity: 0
+      }
+
+      .modal-style-1 {
+        background-color: #fff;
+        border: 1px solid #000;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: center;
+      }
+
+      #example-99 {
+        position: absolute;
+        right: 0px;
+        top: 400px;
+        margin: 4px;
+      }
+    </style>
+    <!-- <script type="text/javascript" src="dist/minitaur.min.js"></script> -->
+    <script type="text/javascript" src="minitaur.js"></script>
+    <script type="text/javascript">
+      window.minitaurDebug = true
+
+      window.addEventListener('load', function () {
+        minitaur({
+          closeDuration: 250
+        })
+
+        minitaur({
+          // backdropStyle: null,
+          closeDuration: 250,
+          content: '<span>&#128520;</span>',
+          id: 'minitaur-2',
+          mount: false,
+          style: {
+            fontSize: '200px'
+          },
+          takeover: true,
+          triggers: '#example-2-init'
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <a class="github-fork-ribbon" href="https://github.com/kodie/minitaur" data-ribbon="Check me out on GitHub" title="Check me out on GitHub">Check me out on GitHub</a>
+
+    <header>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">minitaur</h1>
+          <p class="lead">The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.</p>
+          <p><a href="https://github.com/kodie/minitaur" target="_blank">https://github.com/kodie/minitaur</a></p>
+        </div>
+      </div>
+    </header>
+
+    <div id="main">
+      <div id="example-1" class="container">
+        <div class="modal-style-1" data-minitaur data-minitaur-opened data-minitaur-anchor="#example-1" data-minitaur-position="top middle" data-minitaur-close-on-focus-out="false">
+          <p>Hi, I'm a minitaur modal. :)</p>
+          <button type="button" class="btn btn-primary" data-minitaur-close>Close</button>
+        </div>
+
+        <section>
+          <h4>Methods</h4>
+          <button type="button" class="btn btn-primary" data-minitaur-open="#minitaur-1">Open</button>
+          <button type="button" class="btn btn-primary" data-minitaur-close="#minitaur-1">Close</button>
+          <button type="button" class="btn btn-primary" data-minitaur-toggle="#minitaur-1">Toggle</button>
+        </section>
+
+        <section>
+          <h4>Horizontal Position</h4>
+
+          <div>
+            <label for="example-1-position-x-left">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-left" data-minitaur-open="#minitaur-1" data-minitaur-position-x="left" />
+              <span>Left</span>
+            </label>
+
+            <label for="example-1-position-x-inner-left">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-inner-left" data-minitaur-open="#minitaur-1" data-minitaur-position-x="inner-left" />
+              <span>Inner-Left</span>
+            </label>
+
+            <label for="example-1-position-x-middle">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-middle" data-minitaur-open="#minitaur-1" data-minitaur-position-x="middle" checked />
+              <span>Middle</span>
+            </label>
+
+            <label for="example-1-position-x-inner-right">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-inner-right" data-minitaur-open="#minitaur-1" data-minitaur-position-x="inner-right" />
+              <span>Inner-Right</span>
+            </label>
+
+            <label for="example-1-position-x-right">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-right" data-minitaur-open="#minitaur-1" data-minitaur-position-x="right" />
+              <span>Right</span>
+            </label>
+          </div>
+
+          <div>
+            <label for="example-1-position-x-15percent">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-15percent" data-minitaur-open="#minitaur-1" data-minitaur-position-x="15%" />
+              <span>15%</span>
+            </label>
+
+            <label for="example-1-position-x-negative15percent">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-negative15percent" data-minitaur-open="#minitaur-1" data-minitaur-position-x="-15%" />
+              <span>-15%</span>
+            </label>
+
+            <label for="example-1-position-x-20px">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-20px" data-minitaur-open="#minitaur-1" data-minitaur-position-x="20px" />
+              <span>20px</span>
+            </label>
+
+            <label for="example-1-position-x-negative20px">
+              <input type="radio" name="example-1-position-x" id="example-1-position-x-negative20px" data-minitaur-open="#minitaur-1" data-minitaur-position-x="-20px" />
+              <span>-20px</span>
+            </label>
+          </div>
+        </section>
+
+        <section>
+          <h4>Vertical Position</h4>
+
+          <div>
+            <label for="example-1-position-y-top">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-top" data-minitaur-open="#minitaur-1" data-minitaur-position-y="top" checked />
+              <span>Top</span>
+            </label>
+
+            <label for="example-1-position-y-inner-top">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-inner-top" data-minitaur-open="#minitaur-1" data-minitaur-position-y="inner-top" />
+              <span>Inner-Top</span>
+            </label>
+
+            <label for="example-1-position-y-middle">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-middle" data-minitaur-open="#minitaur-1" data-minitaur-position-y="middle" />
+              <span>Middle</span>
+            </label>
+
+            <label for="example-1-position-y-inner-bottom">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-inner-bottom" data-minitaur-open="#minitaur-1" data-minitaur-position-y="inner-bottom" />
+              <span>Inner-Bottom</span>
+            </label>
+
+            <label for="example-1-position-y-bottom">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-bottom" data-minitaur-open="#minitaur-1" data-minitaur-position-y="bottom" />
+              <span>Bottom</span>
+            </label>
+          </div>
+
+          <div>
+            <label for="example-1-position-y-15percent">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-15percent" data-minitaur-open="#minitaur-1" data-minitaur-position-y="15%" />
+              <span>15%</span>
+            </label>
+
+            <label for="example-1-position-y-negative15percent">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-negative15percent" data-minitaur-open="#minitaur-1" data-minitaur-position-y="-15%" />
+              <span>-15%</span>
+            </label>
+
+            <label for="example-1-position-y-20px">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-20px" data-minitaur-open="#minitaur-1" data-minitaur-position-y="20px" />
+              <span>20px</span>
+            </label>
+
+            <label for="example-1-position-y-negative20px">
+              <input type="radio" name="example-1-position-y" id="example-1-position-y-negative20px" data-minitaur-open="#minitaur-1" data-minitaur-position-y="-20px" />
+              <span>-20px</span>
+            </label>
+          </div>
+        </section>
+
+        <section>
+          <h4>Horizontal Anchor</h4>
+
+          <label for="example-1-anchor-x-this">
+            <input type="radio" name="example-1-anchor-x" id="example-1-anchor-x-this" data-minitaur-open="#minitaur-1" data-minitaur-anchor-x="#example-1" checked />
+            <span>This DIV</span>
+          </label>
+
+          <label for="example-1-anchor-x-body">
+            <input type="radio" name="example-1-anchor-x" id="example-1-anchor-x-body" data-minitaur-open="#minitaur-1" data-minitaur-anchor-x="body" />
+            <span>Entire Page</span>
+          </label>
+
+          <label for="example-1-anchor-x-viewport">
+            <input type="radio" name="example-1-anchor-x" id="example-1-anchor-x-viewport" data-minitaur-open="#minitaur-1" data-minitaur-anchor-x="viewport" />
+            <span>Viewport</span>
+          </label>
+        </section>
+
+        <section>
+          <h4>Vertical Anchor</h4>
+
+          <label for="example-1-anchor-y-this">
+            <input type="radio" name="example-1-anchor-y" id="example-1-anchor-y-this" data-minitaur-open="#minitaur-1" data-minitaur-anchor-y="#example-1" checked />
+            <span>This DIV</span>
+          </label>
+
+          <label for="example-1-anchor-y-body">
+            <input type="radio" name="example-1-anchor-y" id="example-1-anchor-y-body" data-minitaur-open="#minitaur-1" data-minitaur-anchor-y="body" />
+            <span>Entire Page</span>
+          </label>
+
+          <label for="example-1-anchor-y-viewport">
+            <input type="radio" name="example-1-anchor-y" id="example-1-anchor-y-viewport" data-minitaur-open="#minitaur-1" data-minitaur-anchor-y="viewport" />
+            <span>Viewport</span>
+          </label>
+        </section>
+
+        <section>
+          <h4>Respect Anchor Spacing?</h4>
+
+          <label for="example-1-respect-anchor-spacing-true">
+            <input type="radio" name="example-1-respect-anchor-spacing" id="example-1-respect-anchor-spacing-true" data-minitaur-open="#minitaur-1" data-minitaur-respect-anchor-spacing="true" />
+            <span>Yup</span>
+          </label>
+
+          <label for="example-1-respect-anchor-spacing-false">
+            <input type="radio" name="example-1-respect-anchor-spacing" id="example-1-respect-anchor-spacing-false" data-minitaur-open="#minitaur-1" data-minitaur-respect-anchor-spacing="false" checked />
+            <span>Nope</span>
+          </label>
+        </section>
+      </div>
+
+      <div id="example-2" class="container">
+        <button type="button" id="example-2-init" class="btn btn-primary">Let's TAKEOVER with a modal created purely with JavaScript &#128520;</button>
+      </div>
+    </div>
+
+    <div id="example-99">
+      <div id="minitaur-99" class="modal-style-1" data-minitaur data-minitaur-position="bottom right">
+        <span>You can see that this modal has it's position set to "bottom right".<br />But since the button is all the way over to the right side of the page,<br />the modal's position gets adjusted.</span>
+      </div>
+
+      <button id="example-99-init" class="btn btn-primary" data-minitaur-toggle="#minitaur-99">Click Me</button>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">&copy; 2021 <a href="https://kodieg.com" target="_blank">Kodie Grantham</a></span>
+      </div>
+    </footer>
+  </body>
+</html>
