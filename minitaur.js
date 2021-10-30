@@ -3,7 +3,7 @@
   by Kodie Grantham (https://kodieg.com)
 */
 
-if (typeof window.minitaurDebug === 'undefined') window.minitaurDebug = false
+var minitaurDebug = (typeof window.minitaurDebug === 'undefined') ? false : window.minitaurDebug
 
 var minitaur = function (mount, options) {
   var elements = []
@@ -287,7 +287,7 @@ minitaur.documentClick = function (e) {
       element.minitaurIgnore ||
       element.classList.contains('minitaur-ignore')
     ) closeModals = false
-  } while (element = element.parentNode)
+  } while ((element = element.parentNode))
 
   if (closeModals) {
     var modals = minitaur.getModals('[data-minitaur]', true)
@@ -557,8 +557,7 @@ minitaur.kill = function (modals, putBack) {
         var nullActions = 0
 
         for (var a = 0; a < actions.length; a++) {
-          action = actions[a]
-
+          var action = actions[a]
           var triggerElementTargets = triggerElement.getAttribute('data-minitaur-' + action)
 
           if (triggerElementTargets) {
@@ -661,7 +660,7 @@ minitaur.open = function (modals, options) {
       if (opts.parameters) {
         for (var parameter in opts.parameters) {
           modal.innerHTML = modal.innerHTML.replace(
-            new RegExp('\{' + parameter + '\}', 'g'),
+            new RegExp('{' + parameter + '}', 'g'),
             opts.parameters[parameter]
           )
         }
@@ -844,7 +843,7 @@ minitaur.set = function (modals, options, value) {
 }
 
 minitaur.setDimensions = function (modal, options, final) {
-  var opts = opts = minitaur.get(modal, true, false)
+  var opts = minitaur.get(modal, true, false)
 
   opts = minitaur.mergeObjects(opts, options || {})
 
@@ -897,8 +896,6 @@ minitaur.setDimensions = function (modal, options, final) {
   document.body.appendChild(modalClone)
 
   var modalStyle = getComputedStyle(modalClone)
-  var modalWidth = modalClone.offsetWidth
-  var modalHeight = modalClone.offsetHeight
   var anchorXRect = anchorXElement.getBoundingClientRect()
   var anchorXLeft = anchorXRect.x + window.scrollX
   var anchorXTop = anchorXRect.y + window.scrollY
@@ -942,7 +939,7 @@ minitaur.setDimensions = function (modal, options, final) {
   }
 
   if (opts.takeover) {
-    anchorXLeft = 0 -parseInt(document.body.style.left || '0')
+    anchorXLeft = 0 - parseInt(document.body.style.left || '0')
     anchorXTop = 0 - parseInt(document.body.style.top || '0')
     anchorYLeft = 0 - parseInt(document.body.style.left || '0')
     anchorYTop = 0 - parseInt(document.body.style.top || '0')
@@ -951,7 +948,7 @@ minitaur.setDimensions = function (modal, options, final) {
   }
 
   if (anchorXElement === document.body) {
-    switch(opts.position.x) {
+    switch (opts.position.x) {
       case 'left':
         opts.position.x = 'inner-left'
         break
@@ -962,7 +959,7 @@ minitaur.setDimensions = function (modal, options, final) {
   }
 
   if (anchorYElement === document.body) {
-    switch(opts.position.y) {
+    switch (opts.position.y) {
       case 'top':
         opts.position.y = 'inner-top'
         break
@@ -975,7 +972,7 @@ minitaur.setDimensions = function (modal, options, final) {
   if (opts.respectAnchorSpacing.x) {
     var anchorXStyle = getComputedStyle(anchorXElement)
 
-    switch(opts.position.x) {
+    switch (opts.position.x) {
       case 'inner-left':
         anchorXLeft += parseFloat(anchorXStyle.getPropertyValue('padding-left'))
         break
@@ -994,7 +991,7 @@ minitaur.setDimensions = function (modal, options, final) {
   if (opts.respectAnchorSpacing.y) {
     var anchorYStyle = getComputedStyle(anchorYElement)
 
-    switch(opts.position.y) {
+    switch (opts.position.y) {
       case 'inner-top':
         anchorYTop += parseFloat(anchorYStyle.getPropertyValue('padding-top'))
         break
@@ -1041,7 +1038,7 @@ minitaur.setDimensions = function (modal, options, final) {
     })
   }
 
-  switch(opts.position.x) {
+  switch (opts.position.x) {
     case 'inner-left':
       left = anchorXLeft
       break
@@ -1072,7 +1069,7 @@ minitaur.setDimensions = function (modal, options, final) {
       }
   }
 
-  switch(opts.position.y) {
+  switch (opts.position.y) {
     case 'inner-top':
       top = anchorYTop
       break

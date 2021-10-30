@@ -1,5 +1,11 @@
 # minitaur
 
+[![npm package version](https://img.shields.io/npm/v/minitaur.svg?style=flat-square)](https://www.npmjs.com/package/minitaur)
+[![Travis build status](https://img.shields.io/travis/com/kodie/minitaur.svg?style=flat-square)](https://travis-ci.com/kodie/minitaur)
+[![npm package downloads](https://img.shields.io/npm/dt/minitaur.svg?style=flat-square)](https://www.npmjs.com/package/minitaur)
+[![code style](https://img.shields.io/badge/code_style-standard-yellow.svg?style=flat-square)](https://github.com/standard/standard)
+[![license](https://img.shields.io/github/license/kodie/minitaur.svg?style=flat-square)](license.md)
+
 The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.
 
 

@@ -35,9 +35,10 @@
   "license": "MIT",
   "scripts": {
     "build": "uglifyjs minitaur.js --comments /^!/ --compress --mangle --output dist/minitaur.min.js --source-map \"url='minitaur.min.js.map'\" --verbose",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard --env browser"
   },
   "devDependencies": {
+    "standard": "^11.0.1",
     "uglify-js": "^3.10.4"
   }
 }
