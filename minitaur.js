@@ -1182,7 +1182,7 @@ minitaur.setDimensions = function (modal, options, final) {
     }
   }
 
-  minitaur.setStyle(modal, minitaur.mergeObjects({ zIndex: opts.takeover ? 99999 : 'initial' }, opts.style || {}, opts.openStyle || {}, {
+  minitaur.setStyle(modal, minitaur.mergeObjects({ zIndex: opts.takeover ? 99999 : null }, opts.style || {}, opts.openStyle || {}, {
     position: 'absolute',
     left: left + 'px',
     top: top + 'px',
