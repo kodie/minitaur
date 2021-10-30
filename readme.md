@@ -629,7 +629,7 @@ modal.addEventListener('close', function (e) {
 
 ### Styling
 
-minitaur doesn't come with any default styling (except for the `backdropStyle`, `closeStyle`, and `openStyle` option defaults) and doesn't require you to embed any CSS. However the modals can be very easily styled either by using CSS or by setting any of the style options available.
+minitaur doesn't come with any default styling (except for the `backdropStyle`, `closeStyle`, and `openingStyle` option defaults) and doesn't require you to embed any CSS. However the modals can be very easily styled either by using CSS or by setting any of the style options available.
 
 
 #### Examples
