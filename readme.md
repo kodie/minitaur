@@ -14,15 +14,49 @@ The ultimate, dependency-free, easy to use, JavaScript plugin for creating and m
 Visit https://kodie.github.io/minitaur
 
 
-## Usage
+## Installation
 
-Add the JS:
+
+### Manual Download
+
+Download [dist/minitaur.min.js](dist/minitaur.min.js) and place the following HTML in your page's head element:
 
 ```html
 <script type="text/javascript" src="dist/minitaur.min.js"></script>
 ```
 
-And then just use the function below:
+
+### CDN (Courtesy of [jsDelivr](https://jsdelivr.com))
+
+Place the following HTML in your page's head element (check to make sure the version in the URL is the version you want):
+
+```html
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kodie/minitaur@0.0.2/dist/minitaur.min.js"></script>
+```
+
+
+### [NPM](https://npmjs.com)
+
+```
+npm install minitaur --save
+```
+
+
+### [GPM](https://github.com/itsahappymedium/gpm)
+
+```
+gpm install kodie/minitaur --save
+```
+
+
+### [Bower](https://bower.io)
+
+```
+bower install kodie/minitaur --save
+```
+
+
+## Usage
 
 
 ### The `minitaur` Function
