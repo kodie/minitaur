@@ -1,6 +1,6 @@
 {
   "name": "minitaur",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.",
   "keywords": [
     "alert",
@@ -31,14 +31,26 @@
     "url": "https://github.com/kodie/minitaur/issues"
   },
   "homepage": "https://kodie.github.io/minitaur",
-  "main": "minitaur.js",
+  "main": "dist/minitaur.js",
+  "module": "src/minitaur.js",
   "license": "MIT",
   "scripts": {
-    "build": "uglifyjs minitaur.js --comments /^!/ --compress --mangle --output dist/minitaur.min.js --source-map \"url='minitaur.min.js.map'\" --verbose",
+    "build": "npm run test && npm run build-js && npm run minify-js",
+    "build-js": "rollup --config rollup.config.js",
+    "minify-js": "uglifyjs dist/minitaur.js --comments /^!/ --compress --mangle --output dist/minitaur.min.js --source-map \"url='minitaur.min.js.map'\"",
     "test": "standard --env browser"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "@rollup/plugin-babel": "^5.3.0",
+    "core-js": "^3.19.2",
+    "rollup": "^2.60.2",
     "standard": "^11.0.1",
     "uglify-js": "^3.10.4"
+  },
+  "standard": {
+    "ignore": [
+      "/dist/*"
+    ]
   }
 }

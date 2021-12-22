@@ -1,13 +1,13 @@
 /*!
-  minitaur v0.0.2 (https://github.com/kodie/minitaur)
+  minitaur v0.1.0 (https://github.com/kodie/minitaur)
   by Kodie Grantham (https://kodieg.com)
 */
 
-var minitaurDebug = (typeof window.minitaurDebug === 'undefined') ? false : window.minitaurDebug
+const minitaurDebug = (typeof window.minitaurDebug === 'undefined') ? false : window.minitaurDebug
 
-var minitaur = function (mount, options) {
-  var elements = []
-  var modals = []
+const minitaur = (mount, options) => {
+  let elements = []
+  let modals = []
 
   if (mount && mount.constructor === Object) {
     options = mount
@@ -29,7 +29,7 @@ var minitaur = function (mount, options) {
   elements = minitaur.getModals(elements)
 
   if (elements && elements.length) {
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       (function (modal) {
         if (modal.minitaur) {
           return true
@@ -41,7 +41,7 @@ var minitaur = function (mount, options) {
 
         minitaur.modalCount++
 
-        var funcs = {
+        let funcs = {
           close: function (options) {
             return minitaur.close(modal, options)
           },
@@ -62,7 +62,7 @@ var minitaur = function (mount, options) {
           }
         }
 
-        var opts = minitaur.parseOptions(minitaur.mergeObjects(options, minitaur.parseAttributes(modal.dataset), funcs, {
+        let opts = minitaur.parseOptions(minitaur.mergeObjects(options, minitaur.parseAttributes(modal.dataset), funcs, {
           isOpen: false
         }))
 
@@ -91,7 +91,7 @@ var minitaur = function (mount, options) {
             opts.class = [opts.class]
           }
 
-          for (var c = 0; c < opts.class.length; c++) {
+          for (let c = 0; c < opts.class.length; c++) {
             modal.classList.add(opts.class[c])
           }
         }
@@ -205,14 +205,14 @@ minitaur.clearTimers = function (modal) {
   }
 }
 
-minitaur.close = function (modals, options) {
+minitaur.close = (modals, options) => {
   modals = minitaur.getModals(modals, true)
 
-  for (var i = 0; i < modals.length; i++) {
+  for (let i = 0; i < modals.length; i++) {
     (function (modal) {
       if (options) modal.minitaur.set(options)
 
-      var opts = minitaur.get(modal, true, false)
+      const opts = minitaur.get(modal, true, false)
 
       if (minitaurDebug) console.log('minitaur.close (#' + modal.id + '):', opts)
 
@@ -227,17 +227,20 @@ minitaur.close = function (modals, options) {
       modal.classList.add(opts.closingClass)
       minitaur.setStyle(modal, minitaur.mergeObjects(opts.style || {}, opts.closingStyle || {}))
 
+      let backdrop = null
+
       if (opts.takeover) {
         modal.removeAttribute('data-minitaur-taking-over')
 
-        var backdrop = document.querySelector('[data-minitaur-backdrop="#' + modal.id + '"]')
+        backdrop = document.querySelector('[data-minitaur-backdrop="#' + modal.id + '"]')
+
         if (backdrop) {
           backdrop.classList.remove(opts.openClass)
           backdrop.classList.remove(opts.openingClass)
           backdrop.classList.add(opts.closingClass)
 
-          var scrollX = parseInt(document.body.style.left || '0') * -1
-          var scrollY = parseInt(document.body.style.top || '0') * -1
+          const scrollX = parseInt(document.body.style.left || '0') * -1
+          const scrollY = parseInt(document.body.style.top || '0') * -1
 
           minitaur.setStyle(backdrop, opts.backdropClosingStyle || {})
 
@@ -276,9 +279,9 @@ minitaur.close = function (modals, options) {
   }
 }
 
-minitaur.documentClick = function (e) {
-  var element = e.target
-  var closeModals = true
+minitaur.documentClick = (e) => {
+  let element = e.target
+  let closeModals = true
 
   do {
     if (element === document.body) break
@@ -290,10 +293,10 @@ minitaur.documentClick = function (e) {
   } while ((element = element.parentNode))
 
   if (closeModals) {
-    var modals = minitaur.getModals('[data-minitaur]', true)
+    const modals = minitaur.getModals('[data-minitaur]', true)
 
-    for (var i = 0; i < modals.length; i++) {
-      var modal = modals[i]
+    for (let i = 0; i < modals.length; i++) {
+      let modal = modals[i]
 
       if (modal.minitaur.closeOnFocusOut && modal.minitaur.isOpen === true) {
         modal.minitaur.close()
@@ -302,13 +305,13 @@ minitaur.documentClick = function (e) {
   }
 }
 
-minitaur.documentResize = function (e) {
+minitaur.documentResize = (e) => {
   minitaur.clearTimers()
 
   minitaur.resizeTimer = setTimeout(function () {
-    var elements = minitaur.getModals('[data-minitaur]', true)
+    const elements = minitaur.getModals('[data-minitaur]', true)
 
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       (function (modal) {
         if (modal.minitaur.isOpen) {
           modal.minitaur.open()
@@ -318,15 +321,15 @@ minitaur.documentResize = function (e) {
   }, 60)
 }
 
-minitaur.documentScroll = function (e) {
+minitaur.documentScroll = (e) => {
   minitaur.clearTimers()
 
   minitaur.resizeTimer = setTimeout(function () {
-    var elements = minitaur.getModals('[data-minitaur]', true)
+    const elements = minitaur.getModals('[data-minitaur]', true)
 
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       (function (modal) {
-        var opts = modal.minitaur
+        const opts = modal.minitaur
 
         if (opts.isOpen && !opts.takeover && (opts.anchor.x === 'viewport' || opts.anchor.y === 'viewport')) {
           modal.minitaur.open()
@@ -336,19 +339,19 @@ minitaur.documentScroll = function (e) {
   }, 60)
 }
 
-minitaur.get = function (elements, parseBreakpoints, verify) {
+minitaur.get = (elements, parseBreakpoints, verify) => {
   elements = minitaur.getModals(elements, verify)
 
-  var modals = []
+  let modals = []
 
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     (function (modal) {
-      var opts = minitaur.mergeObjects(modal.minitaur, { element: modal })
+      let opts = minitaur.mergeObjects(modal.minitaur, { element: modal })
 
       if (parseBreakpoints && opts.breakpoints) {
-        var breakpointOpts = null
+        let breakpointOpts = null
 
-        for (var breakpoint in opts.breakpoints) {
+        for (let breakpoint in opts.breakpoints) {
           if (document.documentElement.clientWidth >= parseInt(breakpoint)) {
             breakpointOpts = opts.breakpoints[breakpoint]
           }
@@ -376,7 +379,7 @@ minitaur.get = function (elements, parseBreakpoints, verify) {
   return false
 }
 
-minitaur.getModals = function (elements, verify) {
+minitaur.getModals = (elements, verify) => {
   if (typeof elements === 'string') {
     elements = document.querySelectorAll(elements)
   } else if (elements instanceof HTMLElement) {
@@ -384,9 +387,9 @@ minitaur.getModals = function (elements, verify) {
   }
 
   if (verify) {
-    var verifiedElements = []
+    let verifiedElements = []
 
-    for (var i = 0; i < elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       (function (modal) {
         if (!modal.minitaur) {
           console.warn('Element doesn\'t appear to be a minitaur instance:', modal)
@@ -403,15 +406,15 @@ minitaur.getModals = function (elements, verify) {
   return elements
 }
 
-minitaur.initiateTriggers = function (modals) {
+minitaur.initiateTriggers = (modals) => {
   modals = minitaur.getModals(modals, true)
 
-  var actions = ['close', 'open', 'toggle']
+  let actions = ['close', 'open', 'toggle']
 
-  for (var i = 0; i < modals.length; i++) {
-    var modal = modals[i]
-    var opts = minitaur.get(modal, true, false)
-    var triggers = opts.triggers
+  for (let i = 0; i < modals.length; i++) {
+    const modal = modals[i]
+    let opts = minitaur.get(modal, true, false)
+    let triggers = opts.triggers
 
     if (typeof triggers === 'string') {
       triggers = [{
@@ -423,7 +426,7 @@ minitaur.initiateTriggers = function (modals) {
       triggers = []
     }
 
-    triggers = triggers.reduce(function (validTriggers, trigger) {
+    triggers = triggers.reduce((validTriggers, trigger) => {
       if (Array.isArray(trigger)) {
         trigger.elements = trigger
       } else if (!trigger.elements) {
@@ -435,8 +438,8 @@ minitaur.initiateTriggers = function (modals) {
       return validTriggers
     }, [])
 
-    for (var t = 0; t < triggers.length; t++) {
-      var trigger = triggers[t]
+    for (let t = 0; t < triggers.length; t++) {
+      let trigger = triggers[t]
 
       if (typeof trigger === 'string') {
         trigger = {
@@ -462,10 +465,10 @@ minitaur.initiateTriggers = function (modals) {
         trigger.action = 'toggle'
       }
 
-      for (var e = 0; e < trigger.elements.length; e++) {
-        var triggerElement = trigger.elements[e]
-        var triggerElementTargets = triggerElement.getAttribute('data-minitaur-' + trigger.action)
-        var triggerElementEvents = triggerElement.getAttribute('data-minitaur-event')
+      for (let e = 0; e < trigger.elements.length; e++) {
+        const triggerElement = trigger.elements[e]
+        let triggerElementTargets = triggerElement.getAttribute('data-minitaur-' + trigger.action)
+        let triggerElementEvents = triggerElement.getAttribute('data-minitaur-event')
 
         if (triggerElementTargets) {
           triggerElementTargets = triggerElementTargets.split(',')
@@ -481,8 +484,8 @@ minitaur.initiateTriggers = function (modals) {
         if (triggerElementEvents) {
           triggerElementEvents = triggerElementEvents.split(',')
 
-          for (var te = 0; te < trigger.events.length; te++) {
-            var triggerEvent = trigger.events[te]
+          for (let te = 0; te < trigger.events.length; te++) {
+            const triggerEvent = trigger.events[te]
 
             if (!triggerElementEvents.includes(triggerEvent)) {
               triggerElementEvents.push(triggerEvent)
@@ -496,14 +499,14 @@ minitaur.initiateTriggers = function (modals) {
       }
     }
 
-    for (var a = 0; a < actions.length; a++) {
-      var action = actions[a]
-      var triggerElements = document.querySelectorAll('[data-minitaur-' + action + '="#' + modal.id + '"], #' + modal.id + ' [data-minitaur-' + action + '=""]')
+    for (let a = 0; a < actions.length; a++) {
+      const action = actions[a]
+      const triggerElements = document.querySelectorAll('[data-minitaur-' + action + '="#' + modal.id + '"], #' + modal.id + ' [data-minitaur-' + action + '=""]')
 
-      for (var ae = 0; ae < triggerElements.length; ae++) {
+      for (let ae = 0; ae < triggerElements.length; ae++) {
         (function (triggerElement) {
-          var triggerEvents = triggerElement.getAttribute('data-minitaur-event')
-          var triggerTargets = triggerElement.getAttribute('data-minitaur-' + action)
+          let triggerEvents = triggerElement.getAttribute('data-minitaur-event')
+          let triggerTargets = triggerElement.getAttribute('data-minitaur-' + action)
 
           if (triggerTargets === '') {
             triggerElement.setAttribute('data-minitaur-' + action, '#' + modal.id)
@@ -516,8 +519,8 @@ minitaur.initiateTriggers = function (modals) {
             triggerElement.setAttribute('data-minitaur-event', 'click')
           }
 
-          for (var aee = 0; aee < triggerEvents.length; aee++) {
-            var triggerEvent = triggerEvents[aee]
+          for (let aee = 0; aee < triggerEvents.length; aee++) {
+            let triggerEvent = triggerEvents[aee]
             triggerElement.addEventListener(triggerEvent, minitaur.triggerEvent)
           }
 
@@ -529,15 +532,15 @@ minitaur.initiateTriggers = function (modals) {
   }
 }
 
-minitaur.kill = function (modals, putBack) {
+minitaur.kill = (modals, putBack) => {
   modals = minitaur.getModals(modals, true)
 
-  var actions = ['close', 'open', 'toggle']
-  var triggerElements = document.querySelectorAll('[data-minitaur-trigger]')
+  const actions = ['close', 'open', 'toggle']
+  const triggerElements = document.querySelectorAll('[data-minitaur-trigger]')
 
-  for (var i = 0; i < modals.length; i++) {
+  for (let i = 0; i < modals.length; i++) {
     (function (modal) {
-      var opts = minitaur.get(modal, true, false)
+      const opts = minitaur.get(modal, true, false)
 
       if (opts.isOpen) opts.close()
 
@@ -552,18 +555,18 @@ minitaur.kill = function (modals, putBack) {
         }
       }
 
-      for (var t = 0; t < triggerElements.length; t++) {
-        var triggerElement = triggerElements[t]
-        var nullActions = 0
+      for (let t = 0; t < triggerElements.length; t++) {
+        const triggerElement = triggerElements[t]
+        let nullActions = 0
 
-        for (var a = 0; a < actions.length; a++) {
-          var action = actions[a]
-          var triggerElementTargets = triggerElement.getAttribute('data-minitaur-' + action)
+        for (let a = 0; a < actions.length; a++) {
+          const action = actions[a]
+          let triggerElementTargets = triggerElement.getAttribute('data-minitaur-' + action)
 
           if (triggerElementTargets) {
             triggerElementTargets = triggerElementTargets.split(',')
 
-            var triggerElementTargetIndex = triggerElementTargets.indexOf('#' + modal.id)
+            let triggerElementTargetIndex = triggerElementTargets.indexOf('#' + modal.id)
 
             if (triggerElementTargetIndex !== -1) {
               triggerElementTargets.splice(triggerElementTargetIndex, 1)
@@ -581,12 +584,12 @@ minitaur.kill = function (modals, putBack) {
         }
 
         if (nullActions === actions.length) {
-          var triggerEvents = triggerElement.getAttribute('data-minitaur-event')
+          const triggerEvents = triggerElement.getAttribute('data-minitaur-event')
 
           triggerElement.removeAttribute('data-minitaur-event')
           triggerElement.removeAttribute('data-minitaur-trigger')
 
-          for (var e = 0; e < triggerEvents.length; e++) {
+          for (let e = 0; e < triggerEvents.length; e++) {
             triggerElement.removeEventListener(triggerEvents[e], minitaur.triggerEvent)
           }
 
@@ -607,16 +610,16 @@ minitaur.kill = function (modals, putBack) {
   }
 }
 
-minitaur.mergeObjects = function (...objects) {
-  var isObject = function (obj) { return obj && typeof obj === 'object' && !(obj instanceof HTMLElement) }
+minitaur.mergeObjects = (...objects) => {
+  const isObject = function (obj) { return obj && typeof obj === 'object' && !(obj instanceof HTMLElement) }
 
-  return objects.reduce(function (prev, obj) {
-    Object.keys(obj).forEach(function (key) {
-      var pVal = prev[key]
-      var oVal = obj[key]
+  return objects.reduce((prev, obj) => {
+    Object.keys(obj).forEach((key) => {
+      const pVal = prev[key]
+      const oVal = obj[key]
 
       if (Array.isArray(pVal) && Array.isArray(oVal)) {
-        prev[key] = [...pVal, ...oVal].filter(function (element, index, array) {
+        prev[key] = [...pVal, ...oVal].filter((element, index, array) => {
           return array.indexOf(element) === index
         })
       } else if (isObject(pVal) && isObject(oVal)) {
@@ -630,14 +633,14 @@ minitaur.mergeObjects = function (...objects) {
   }, {})
 }
 
-minitaur.open = function (modals, options) {
+minitaur.open = (modals, options) => {
   modals = minitaur.getModals(modals, true)
 
-  for (var i = 0; i < modals.length; i++) {
+  for (let i = 0; i < modals.length; i++) {
     (function (modal) {
       if (options) modal.minitaur.set(options)
 
-      var opts = minitaur.get(modal, true, false)
+      let opts = minitaur.get(modal, true, false)
 
       if (minitaurDebug) console.log('minitaur.open (#' + modal.id + '):', opts)
 
@@ -658,7 +661,7 @@ minitaur.open = function (modals, options) {
       }
 
       if (opts.parameters) {
-        for (var parameter in opts.parameters) {
+        for (let parameter in opts.parameters) {
           modal.innerHTML = modal.innerHTML.replace(
             new RegExp('{' + parameter + '}', 'g'),
             opts.parameters[parameter]
@@ -671,12 +674,14 @@ minitaur.open = function (modals, options) {
       modal.classList.add(opts.openingClass)
       minitaur.setStyle(modal, minitaur.mergeObjects(opts.style || {}, opts.openingStyle || {}))
 
+      let backdrop = null
+
       if (opts.takeover && !document.querySelector('#' + modal.id + '-backdrop')) {
         window.removeEventListener('scroll', minitaur.documentScroll)
 
         minitaur.close('[data-minitaur][data-minitaur-taking-over]')
 
-        var backdrop = document.createElement('div')
+        backdrop = document.createElement('div')
 
         backdrop.id = modal.id + '-backdrop'
 
@@ -732,19 +737,19 @@ minitaur.open = function (modals, options) {
   }
 }
 
-minitaur.parseAttributes = function (data) {
-  var opts = {}
-  var keyPrefix = 'minitaur'
-  var arrayParameters = ['class']
-  var objectParameters = ['anchor', 'backdropStyle', 'breakpoints', 'closeStyle', 'openStyle', 'parameters', 'position', 'respectAnchorSpacing', 'style']
-  var deepObjectParameters = ['breakpoints']
-  var validParameters = Object.keys(minitaur.defaultOptions).concat(['triggerElement'])
+minitaur.parseAttributes = (data) => {
+  let opts = {}
+  const keyPrefix = 'minitaur'
+  const arrayParameters = ['class']
+  const objectParameters = ['anchor', 'backdropStyle', 'breakpoints', 'closeStyle', 'openStyle', 'parameters', 'position', 'respectAnchorSpacing', 'style']
+  const deepObjectParameters = ['breakpoints']
+  const validParameters = Object.keys(minitaur.defaultOptions).concat(['triggerElement'])
 
-  for (var key in data) {
+  for (let key in data) {
     if (key !== keyPrefix && key.substring(0, keyPrefix.length).toLowerCase() === keyPrefix.toLowerCase()) {
-      var property = key.charAt(keyPrefix.length).toLowerCase() + key.substring(keyPrefix.length + 1).replace('-', '')
-      var propSet = false
-      var value = data[key]
+      const property = key.charAt(keyPrefix.length).toLowerCase() + key.substring(keyPrefix.length + 1).replace('-', '')
+      let propSet = false
+      let value = data[key]
 
       if (value.toLowerCase() === 'true' || !value.length) {
         value = true
@@ -756,19 +761,19 @@ minitaur.parseAttributes = function (data) {
         value = value.split(',')
       }
 
-      for (var o = 0; o < objectParameters.length; o++) {
-        var objKey = objectParameters[o]
-        var objProp = property.substring(0, objKey.length)
+      for (let o = 0; o < objectParameters.length; o++) {
+        const objKey = objectParameters[o]
+        const objProp = property.substring(0, objKey.length)
 
         if (objProp.length !== property.length && objProp.toLowerCase() === objKey.toLowerCase()) {
-          var objPropKey = property.substring(objKey.length).toLowerCase()
+          const objPropKey = property.substring(objKey.length).toLowerCase()
 
           if (!opts[objKey]) {
             opts[objKey] = {}
           }
 
           if (deepObjectParameters.includes(objProp)) {
-            var breakpoint = objPropKey.match(/^\d+/)
+            let breakpoint = objPropKey.match(/^\d+/)
 
             if (breakpoint) {
               opts[objKey][breakpoint[0]] = minitaur.parseAttributes({ [keyPrefix + objPropKey.substring(breakpoint[0].length)]: value })
@@ -793,7 +798,7 @@ minitaur.parseAttributes = function (data) {
   return opts
 }
 
-minitaur.parseOptions = function (opts) {
+minitaur.parseOptions = (opts) => {
   if (opts.takeover) opts.anchor = 'viewport'
 
   if (!opts.anchor || typeof opts.anchor === 'string') {
@@ -827,14 +832,14 @@ minitaur.parseOptions = function (opts) {
   return opts
 }
 
-minitaur.set = function (modals, options, value) {
+minitaur.set = (modals, options, value) => {
   modals = minitaur.getModals(modals, true)
 
   if (typeof options === 'string') {
     options = { [options]: value }
   }
 
-  for (var i = 0; i < modals.length; i++) {
+  for (let i = 0; i < modals.length; i++) {
     (function (modal) {
       if (minitaurDebug) console.log('minitaur.set (#' + modal.id + '):', options)
       modal.minitaur = minitaur.parseOptions(minitaur.mergeObjects(modal.minitaur, options || {}))
@@ -842,16 +847,16 @@ minitaur.set = function (modals, options, value) {
   }
 }
 
-minitaur.setDimensions = function (modal, options, final) {
-  var opts = minitaur.get(modal, true, false)
+minitaur.setDimensions = (modal, options, final) => {
+  let opts = minitaur.get(modal, true, false)
 
   opts = minitaur.mergeObjects(opts, options || {})
 
   if (!opts.anchor.x) opts.anchor.x = opts.triggerElement || document.body
   if (!opts.anchor.y) opts.anchor.y = opts.triggerElement || document.body
 
-  var anchorXElement = null
-  var anchorYElement = null
+  let anchorXElement = null
+  let anchorYElement = null
 
   if (typeof opts.anchor.x === 'string') {
     if (opts.anchor.x === 'viewport') {
@@ -883,7 +888,7 @@ minitaur.setDimensions = function (modal, options, final) {
     anchorYElement = document.body
   }
 
-  var modalClone = modal.cloneNode(true)
+  const modalClone = modal.cloneNode(true)
 
   minitaur.setStyle(modalClone, minitaur.mergeObjects(opts.style || {}, opts.openStyle || {}, {
     left: '0px',
@@ -895,30 +900,30 @@ minitaur.setDimensions = function (modal, options, final) {
 
   document.body.appendChild(modalClone)
 
-  var modalStyle = getComputedStyle(modalClone)
-  var anchorXRect = anchorXElement.getBoundingClientRect()
-  var anchorXLeft = anchorXRect.x + window.scrollX
-  var anchorXTop = anchorXRect.y + window.scrollY
-  var anchorXWidth = anchorXRect.width
-  var anchorXHeight = anchorXRect.height
-  var anchorYRect = anchorYElement.getBoundingClientRect()
-  var anchorYLeft = anchorYRect.x + window.scrollX
-  var anchorYTop = anchorYRect.y + window.scrollY
-  var anchorYWidth = anchorYRect.width
-  var anchorYHeight = anchorYRect.height
-  var modalMarginLeft = parseFloat(modalStyle.getPropertyValue('margin-left'))
-  var modalMarginTop = parseFloat(modalStyle.getPropertyValue('margin-top'))
-  var modalMarginRight = parseFloat(modalStyle.getPropertyValue('margin-right'))
-  var modalMarginBottom = parseFloat(modalStyle.getPropertyValue('margin-bottom'))
-  var modalWidth = modalClone.offsetWidth + modalMarginLeft + modalMarginRight
-  var modalHeight = modalClone.offsetHeight + modalMarginTop + modalMarginBottom
-  var left = 0
-  var top = 0
-  var width = parseFloat(modalStyle.getPropertyValue('width'))
-  var height = parseFloat(modalStyle.getPropertyValue('height'))
-  var boundaryX = document.body.clientWidth
-  var boundaryY = document.body.clientHeight
-  var adjustTopPositionFirst = false
+  const modalStyle = getComputedStyle(modalClone)
+  const anchorXRect = anchorXElement.getBoundingClientRect()
+  let anchorXLeft = anchorXRect.x + window.scrollX
+  let anchorXTop = anchorXRect.y + window.scrollY
+  let anchorXWidth = anchorXRect.width
+  let anchorXHeight = anchorXRect.height
+  let anchorYRect = anchorYElement.getBoundingClientRect()
+  let anchorYLeft = anchorYRect.x + window.scrollX
+  let anchorYTop = anchorYRect.y + window.scrollY
+  let anchorYWidth = anchorYRect.width
+  let anchorYHeight = anchorYRect.height
+  const modalMarginLeft = parseFloat(modalStyle.getPropertyValue('margin-left'))
+  const modalMarginTop = parseFloat(modalStyle.getPropertyValue('margin-top'))
+  const modalMarginRight = parseFloat(modalStyle.getPropertyValue('margin-right'))
+  const modalMarginBottom = parseFloat(modalStyle.getPropertyValue('margin-bottom'))
+  const modalWidth = modalClone.offsetWidth + modalMarginLeft + modalMarginRight
+  const modalHeight = modalClone.offsetHeight + modalMarginTop + modalMarginBottom
+  let left = 0
+  let top = 0
+  let width = parseFloat(modalStyle.getPropertyValue('width'))
+  let height = parseFloat(modalStyle.getPropertyValue('height'))
+  let boundaryX = document.body.clientWidth
+  let boundaryY = document.body.clientHeight
+  let adjustTopPositionFirst = false
 
   document.body.removeChild(modalClone)
 
@@ -970,7 +975,7 @@ minitaur.setDimensions = function (modal, options, final) {
   }
 
   if (opts.respectAnchorSpacing.x) {
-    var anchorXStyle = getComputedStyle(anchorXElement)
+    const anchorXStyle = getComputedStyle(anchorXElement)
 
     switch (opts.position.x) {
       case 'inner-left':
@@ -989,7 +994,7 @@ minitaur.setDimensions = function (modal, options, final) {
   }
 
   if (opts.respectAnchorSpacing.y) {
-    var anchorYStyle = getComputedStyle(anchorYElement)
+    const anchorYStyle = getComputedStyle(anchorYElement)
 
     switch (opts.position.y) {
       case 'inner-top':
@@ -1125,16 +1130,16 @@ minitaur.setDimensions = function (modal, options, final) {
       opts.position.y === 'top' ||
       opts.position.y === 'bottom'
     ) {
-      var anchorXOverlap = false
-      var anchorYOverlap = false
+      let anchorXOverlap = false
+      let anchorYOverlap = false
 
       if (anchorXElement !== document.body) {
-        var anchorXLeftOverlap = (
+        let anchorXLeftOverlap = (
           (left >= anchorXLeft && left < (anchorXLeft + anchorXWidth)) ||
           (left < anchorXLeft && (left + modalWidth) >= anchorXLeft)
         )
 
-        var anchorXTopOverlap = (
+        let anchorXTopOverlap = (
           (top >= anchorXTop && top < (anchorXTop + anchorXHeight)) ||
           (top < anchorXTop && (top + modalHeight) >= anchorXTop)
         )
@@ -1143,12 +1148,12 @@ minitaur.setDimensions = function (modal, options, final) {
       }
 
       if (anchorYElement !== document.body) {
-        var anchorYLeftOverlap = (
+        let anchorYLeftOverlap = (
           (left >= anchorYLeft && left < (anchorYLeft + anchorYWidth)) ||
           (left < anchorYLeft && (left + modalWidth) >= anchorYLeft)
         )
 
-        var anchorYTopOverlap = (
+        let anchorYTopOverlap = (
           (top >= anchorYTop && top < (anchorYTop + anchorYHeight)) ||
           (top < anchorYTop && (top + modalHeight) >= anchorYTop)
         )
@@ -1193,18 +1198,18 @@ minitaur.setDimensions = function (modal, options, final) {
   return true
 }
 
-minitaur.setStyle = function (element, styles) {
+minitaur.setStyle = (element, styles) => {
   if (minitaurDebug) console.log('minitaur.setStyle (' + (element.id ? '#' + element.id : element.tagName) + '):', styles)
 
-  for (var property in styles) {
+  for (let property in styles) {
     element.style[property] = styles[property]
   }
 }
 
-minitaur.toggle = function (modals, options) {
+minitaur.toggle = (modals, options) => {
   modals = minitaur.getModals(modals, true)
 
-  for (var i = 0; i < modals.length; i++) {
+  for (let i = 0; i < modals.length; i++) {
     (function (modal) {
       if (minitaurDebug) console.log('minitaur.toggle (#' + modal.id + '):', options)
 
@@ -1217,14 +1222,14 @@ minitaur.toggle = function (modals, options) {
   }
 }
 
-minitaur.triggerEvent = function (e) {
-  var actions = ['close', 'open', 'toggle']
-  var triggerElement = e.currentTarget
-  var opts = minitaur.mergeObjects(minitaur.parseAttributes(triggerElement.dataset), { triggerElement: triggerElement })
+minitaur.triggerEvent = (e) => {
+  const actions = ['close', 'open', 'toggle']
+  let triggerElement = e.currentTarget
+  const opts = minitaur.mergeObjects(minitaur.parseAttributes(triggerElement.dataset), { triggerElement: triggerElement })
 
-  for (var i = 0; i < actions.length; i++) {
-    var action = actions[i]
-    var targetElements = triggerElement.getAttribute('data-minitaur-' + action)
+  for (let i = 0; i < actions.length; i++) {
+    let action = actions[i]
+    let targetElements = triggerElement.getAttribute('data-minitaur-' + action)
 
     if (targetElements) {
       if (minitaurDebug) console.log('minitaur.triggerEvent:', targetElements, opts)
@@ -1232,3 +1237,5 @@ minitaur.triggerEvent = function (e) {
     }
   }
 }
+
+export default minitaur

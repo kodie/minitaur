@@ -41,6 +41,14 @@ Place the following HTML in your page's head element (check to make sure the ver
 npm install minitaur --save
 ```
 
+```js
+// ES6
+import minitaur from 'minitaur'
+
+// CommonJS
+const minitaur = require('minitaur')
+```
+
 
 ### [GPM](https://github.com/itsahappymedium/gpm)
 
