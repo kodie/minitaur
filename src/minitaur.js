@@ -416,7 +416,7 @@ minitaur.initiateTriggers = (modals) => {
   for (let i = 0; i < modals.length; i++) {
     const modal = modals[i]
     let opts = minitaur.get(modal, true, false)
-    let triggers = opts.triggers
+    let triggers = opts.triggers || opts.trigger
 
     if (typeof triggers === 'string') {
       triggers = [{
