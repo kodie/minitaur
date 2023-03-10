@@ -50,6 +50,10 @@
         margin-top: 4rem;
       }
 
+      section button {
+        margin: 5px;
+      }
+
       label ~ label {
         margin-left: 1rem;
       }
@@ -89,7 +93,7 @@
     <script type="text/javascript">
       window.minitaurDebug = true
 
-      window.addEventListener('load', function () {
+      function initMinitaurExamples () {
         minitaur({
           closeDuration: 250
         })
@@ -106,6 +110,10 @@
           takeover: true,
           triggers: '#example-2-init'
         })
+      }
+
+      window.addEventListener('load', function () {
+        initMinitaurExamples()
       })
     </script>
   </head>
@@ -124,7 +132,7 @@
 
     <div id="main">
       <div id="example-1" class="container">
-        <div class="modal-style-1" data-minitaur data-minitaur-opened data-minitaur-anchor="#example-1" data-minitaur-position="top middle" data-minitaur-close-on-focus-out="false">
+        <div class="modal-style-1" id="minitaur-1" data-minitaur data-minitaur-opened data-minitaur-anchor="#example-1" data-minitaur-position="top middle" data-minitaur-close-on-focus-out="false">
           <p>Hi, I'm a minitaur modal. :)</p>
           <button type="button" class="btn btn-primary" data-minitaur-close>Close</button>
         </div>
@@ -134,6 +142,15 @@
           <button type="button" class="btn btn-primary" data-minitaur-open="#minitaur-1">Open</button>
           <button type="button" class="btn btn-primary" data-minitaur-close="#minitaur-1">Close</button>
           <button type="button" class="btn btn-primary" data-minitaur-toggle="#minitaur-1">Toggle</button>
+
+          <br /><br />
+          <div>
+            <button type="button" class="btn btn-danger" onclick="minitaur.kill('#minitaur-1')">Kill Example 1</button>
+            <button type="button" class="btn btn-danger" onclick="minitaur.kill('#minitaur-2')">Kill Example 2</button>
+            <button type="button" class="btn btn-danger" onclick="minitaur.kill('#minitaur-99')">Kill Example 99</button>
+            <button type="button" class="btn btn-danger" onclick="minitaur.kill('#minitaur-1, #minitaur-2')">Kill Examples 1 and 2</button>
+            <button type="button" class="btn btn-primary" onclick="initMinitaurExamples()">Reinitialize Examples</button>
+          </div>
         </section>
 
         <section>
