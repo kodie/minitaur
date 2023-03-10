@@ -21,7 +21,11 @@ const minitaur = (mount, options) => {
   } else if (mount instanceof HTMLElement) {
     elements = [mount]
   } else if (!mount) {
-    elements = [document.createElement('div')]
+    if (options.id) {
+      elements = [document.getElementById(options.id) || document.createElement('div')]
+    } else {
+      elements = [document.createElement('div')]
+    }
   }
 
   elements = minitaur.getModals(elements)
@@ -546,7 +550,7 @@ minitaur.kill = (modals, putBack) => {
 
       if (putBack !== false) {
         if (opts.originalElement && opts.originalElementParent && opts.originalElementIndex) {
-          opts.originalElementParent.insertBefore(
+          opts.originalElementParent.insertAfter(
             opts.originalElement,
             opts.originalElementParent.childNodes[opts.originalElementIndex - 1]
           )
