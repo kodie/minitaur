@@ -915,8 +915,8 @@ minitaur.setDimensions = (modal, options, final) => {
   const modalHeight = modalClone.offsetHeight + modalMarginTop + modalMarginBottom
   let left = 0
   let top = 0
-  let width = parseFloat(modalStyle.getPropertyValue('width'))
-  let height = parseFloat(modalStyle.getPropertyValue('height'))
+  let width = parseFloat(modalClone.style.width || modalStyle.getPropertyValue('width'))
+  let height = parseFloat(modalClone.style.height || modalStyle.getPropertyValue('height'))
   let boundaryX = document.body.clientWidth
   let boundaryY = document.body.clientHeight
   let adjustTopPositionFirst = false
