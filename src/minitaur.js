@@ -1,5 +1,5 @@
 /*!
-  minitaur v0.1.0 (https://github.com/kodie/minitaur)
+  minitaur v0.1.1 (https://github.com/kodie/minitaur)
   by Kodie Grantham (https://kodieg.com)
 */
 

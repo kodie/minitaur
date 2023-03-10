@@ -1,6 +1,6 @@
 {
   "name": "minitaur",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.",
   "keywords": [
     "alert",
