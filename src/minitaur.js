@@ -550,7 +550,7 @@ minitaur.kill = (modals, putBack) => {
 
       if (putBack !== false) {
         if (opts.originalElement && opts.originalElementParent && opts.originalElementIndex) {
-          opts.originalElementParent.insertAfter(
+          opts.originalElementParent.insertBefore(
             opts.originalElement,
             opts.originalElementParent.childNodes[opts.originalElementIndex - 1]
           )
