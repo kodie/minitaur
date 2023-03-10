@@ -571,10 +571,7 @@ minitaur.kill = (modals, putBack) => {
             if (triggerElementTargetIndex !== -1) {
               triggerElementTargets.splice(triggerElementTargetIndex, 1)
 
-              if (triggerElementTargets.length) {
-                triggerElement.setAttribute('data-minitaur-' + action, triggerElementTargets.join(','))
-              } else {
-                triggerElement.removeAttribute('data-minitaur-' + action)
+              if (!triggerElementTargets.length) {
                 nullActions++
               }
             }
@@ -584,7 +581,8 @@ minitaur.kill = (modals, putBack) => {
         }
 
         if (nullActions === actions.length) {
-          const triggerEvents = triggerElement.getAttribute('data-minitaur-event')
+          let triggerEvents = triggerElement.getAttribute('data-minitaur-event')
+          triggerEvents = triggerEvents ? triggerEvents.split(',') : []
 
           triggerElement.removeAttribute('data-minitaur-event')
           triggerElement.removeAttribute('data-minitaur-trigger')
