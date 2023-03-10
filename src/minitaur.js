@@ -3,8 +3,6 @@
   by Kodie Grantham (https://kodieg.com)
 */
 
-const minitaurDebug = (typeof window.minitaurDebug === 'undefined') ? false : window.minitaurDebug
-
 const minitaur = (mount, options) => {
   let elements = []
   let modals = []
@@ -84,7 +82,7 @@ const minitaur = (mount, options) => {
           modal.id = 'minitaur-' + minitaur.modalCount
         }
 
-        if (minitaurDebug) console.log('minitaur.init (#' + modal.id + '):', opts)
+        if (window.minitaurDebug) console.log('minitaur.init (#' + modal.id + '):', opts)
 
         if (opts.class) {
           if (typeof opts.class === 'string') {
@@ -214,7 +212,7 @@ minitaur.close = (modals, options) => {
 
       const opts = minitaur.get(modal, true, false)
 
-      if (minitaurDebug) console.log('minitaur.close (#' + modal.id + '):', opts)
+      if (window.minitaurDebug) console.log('minitaur.close (#' + modal.id + '):', opts)
 
       minitaur.clearTimers(modal)
 
@@ -640,7 +638,7 @@ minitaur.open = (modals, options) => {
 
       let opts = minitaur.get(modal, true, false)
 
-      if (minitaurDebug) console.log('minitaur.open (#' + modal.id + '):', opts)
+      if (window.minitaurDebug) console.log('minitaur.open (#' + modal.id + '):', opts)
 
       minitaur.clearTimers(modal)
 
@@ -839,7 +837,7 @@ minitaur.set = (modals, options, value) => {
 
   for (let i = 0; i < modals.length; i++) {
     (function (modal) {
-      if (minitaurDebug) console.log('minitaur.set (#' + modal.id + '):', options)
+      if (window.minitaurDebug) console.log('minitaur.set (#' + modal.id + '):', options)
       modal.minitaur = minitaur.parseOptions(minitaur.mergeObjects(modal.minitaur, options || {}))
     })(modals[i])
   }
@@ -1010,7 +1008,7 @@ minitaur.setDimensions = (modal, options, final) => {
     }
   }
 
-  if (minitaurDebug) {
+  if (window.minitaurDebug) {
     console.log('minitaur.setDimensions (#' + modal.id + '):', {
       anxhorX: {
         element: anchorXElement,
@@ -1197,7 +1195,7 @@ minitaur.setDimensions = (modal, options, final) => {
 }
 
 minitaur.setStyle = (element, styles) => {
-  if (minitaurDebug) console.log('minitaur.setStyle (' + (element.id ? '#' + element.id : element.tagName) + '):', styles)
+  if (window.minitaurDebug) console.log('minitaur.setStyle (' + (element.id ? '#' + element.id : element.tagName) + '):', styles)
 
   for (let property in styles) {
     element.style[property] = styles[property]
@@ -1209,7 +1207,7 @@ minitaur.toggle = (modals, options) => {
 
   for (let i = 0; i < modals.length; i++) {
     (function (modal) {
-      if (minitaurDebug) console.log('minitaur.toggle (#' + modal.id + '):', options)
+      if (window.minitaurDebug) console.log('minitaur.toggle (#' + modal.id + '):', options)
 
       if (modal.minitaur.isOpen) {
         modal.minitaur.close(options)
@@ -1230,7 +1228,7 @@ minitaur.triggerEvent = (e) => {
     let targetElements = triggerElement.getAttribute('data-minitaur-' + action)
 
     if (targetElements) {
-      if (minitaurDebug) console.log('minitaur.triggerEvent:', targetElements, opts)
+      if (window.minitaurDebug) console.log('minitaur.triggerEvent:', targetElements, opts)
       minitaur[action](targetElements, opts)
     }
   }
