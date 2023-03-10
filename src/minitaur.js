@@ -550,10 +550,18 @@ minitaur.kill = (modals, putBack) => {
 
       if (putBack !== false) {
         if (opts.originalElement && opts.originalElementParent && opts.originalElementIndex) {
-          opts.originalElementParent.insertBefore(
-            opts.originalElement,
-            opts.originalElementParent.childNodes[opts.originalElementIndex - 1]
-          )
+          if (opts.originalElementIndex) {
+            if (opts.originalElementIndex > opts.originalElementParent.childNodes.length - 1) {
+              opts.originalElementParent.append(opts.originalElement)
+            } else {
+              opts.originalElementParent.insertBefore(
+                opts.originalElement,
+                opts.originalElementParent.childNodes[opts.originalElementIndex]
+              )
+            }
+          } else {
+            opts.originalElementParent.prepend(opts.originalElement)
+          }
         }
       }
 
