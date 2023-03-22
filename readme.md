@@ -474,8 +474,33 @@ Possible action values: `'close'`, `'open'`, `'toggle'`
 
 Elements to add event listeners to that perform certain actions on the modal. Accepts a `String`/`Array` of `String`s that will be passed to `document.querySelector`, or an `Object`/`Array` of `Object`s containing at the very least an `elements` key set to the before mentioned types. The `action` key can be set to one of the above action values (defaults to `'toggle'`), and/or an `events` key can be set to a `String`/`Array` of `String`s defining the type of event listener that should be used (defaults to `'click'`).
 
+Examples:
 
-##### Example
+```js
+minitaur({
+  triggers: '.toggles-modal-when-clicked'
+})
+
+minitaur({
+  triggers: [
+    '.toggles-modal-when-clicked',
+    '.also-toggles-modal-when-clicked',
+    {
+      action: 'open', // Defaults to "toggle"
+      elements: '.opens-modal-when-hovered',
+      events: 'mouseover' // Defaults to "click"
+    },
+    {
+      action: 'close',
+      elements: '.closes-modal-when-unhovered',
+      events: 'mouseout'
+    }
+  ]
+})
+```
+
+
+#### Defaults Options
 
 ```js
 // All default options
