@@ -422,9 +422,9 @@ Also, when a modal with this option enabled is opened, any other modals with thi
 
 Default: `null`
 
-A key from the `minitaur.templates` object to use as a template for the modal. Accepts a `String` or a `Function`.
+A key from the `minitaur.templates` object to use as a template for the modal. Accepts a `String`.
 
-To create a template, simply add a string to the `minitaur.templates` object. Any instances of `{minitaur-content}` will be replaced with the content of the modal. This option also accepts a function that is passed the modal element as it's only parameter and returns a string.
+To create a template, simply add a string to the `minitaur.templates` object. Any instances of `{minitaur-content}` will be replaced with the content of the modal. A template can also be a function that is passed the modal element as it's only parameter and returns a string.
 
 Example:
 
