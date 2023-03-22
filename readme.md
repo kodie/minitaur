@@ -422,9 +422,19 @@ Also, when a modal with this option enabled is opened, any other modals with thi
 
 Default: `null`
 
-A key from the `minitaur.templates` object to use as a template for the modal. Accepts a `String`.
+The HTML to use as a template for the modal content. Any instances of `{minitaur-content}` will be replaced with the modal's content. Parameters from the `parameters` option can be used here too. Accepts a `String` or `Function`.
 
-To create a template, simply add a string to the `minitaur.templates` object. Any instances of `{minitaur-content}` will be replaced with the content of the modal. A template can also be a function that is passed the modal element as it's only parameter and returns a string.
+Example:
+
+```js
+minitaur('.minitaur-modal', {
+  template: '{minitaur-content}<button type="button" class="btn btn-primary" data-minitaur-close>Close Me</button>'
+})
+```
+
+You can also define templates to use later by setting them in the `minitaur.templates` object and setting the `template` option to it's key rather than the HTML content.
+
+Templates can be a function that is passed the modal as it's only parameter and returns a string.
 
 Example:
 

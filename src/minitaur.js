@@ -670,10 +670,10 @@ minitaur.open = (modals, options) => {
         }
       }
 
-      if (opts.template && minitaur.templates[opts.template]) {
+      if (opts.template) {
         const templateContentElement = modal.querySelector('.minitaur-content')
         let templateContent = modal.innerHTML
-        let template = minitaur.templates[opts.template]
+        let template = minitaur.templates[opts.template] || opts.template
 
         if (templateContentElement) {
           templateContent = templateContentElement.innerHTML
@@ -693,7 +693,11 @@ minitaur.open = (modals, options) => {
         }
 
         modal.classList.remove.apply(modal.classList, Array.from(modal.classList).filter(c => c.startsWith('minitaur-template-')))
-        modal.classList.add('minitaur-template-' + opts.template)
+
+        if (minitaur.templates[opts.template]) {
+          modal.classList.add('minitaur-template-' + opts.template)
+        }
+
         modal.innerHTML = template.replace('{minitaur-content}', templateContent)
       }
 
