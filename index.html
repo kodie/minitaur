@@ -94,7 +94,14 @@
       window.minitaurDebug = true
 
       function initMinitaurExamples () {
+        minitaur.templates.modal = '<span class="minitaur-content">{minitaur-content}</span><button type="button" class="btn btn-primary" data-minitaur-close>Close Me</button>'
+
         minitaur({
+          beforeClose: function (modal) {
+            if (modal.classList.contains('confirm-close')) {
+              return confirm('Are you sure you wish to close this modal?')
+            }
+          },
           closeDuration: 250
         })
 
@@ -132,9 +139,8 @@
 
     <div id="main">
       <div id="example-1" class="container">
-        <div class="modal-style-1" id="minitaur-1" data-minitaur data-minitaur-opened data-minitaur-anchor="#example-1" data-minitaur-position="top middle" data-minitaur-close-on-focus-out="false">
+        <div class="modal-style-1 confirm-close" id="minitaur-1" data-minitaur data-minitaur-opened data-minitaur-anchor="#example-1" data-minitaur-template="modal" data-minitaur-position="top middle" data-minitaur-close-on-focus-out="false">
           <p>Hi, I'm a minitaur modal. :)</p>
-          <button type="button" class="btn btn-primary" data-minitaur-close>Close</button>
         </div>
 
         <section>

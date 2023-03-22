@@ -418,6 +418,44 @@ The backdrop element will get it's `zIndex` style property set to `99998` and th
 Also, when a modal with this option enabled is opened, any other modals with this option enabled will be closed.
 
 
+##### `template`
+
+Default: `null`
+
+A key from the `minitaur.templates` object to use as a template for the modal. Accepts a `String` or a `Function`.
+
+To create a template, simply add a string to the `minitaur.templates` object. Any instances of `{minitaur-content}` will be replaced with the content of the modal. This option also accepts a function that is passed the modal element as it's only parameter and returns a string.
+
+Example:
+
+```js
+minitaur.templates.myModal = '{minitaur-content}<button type="button" class="btn btn-primary" data-minitaur-close>Close Me</button>'
+
+minitaur('.minitaur-modal', {
+  template: 'myModal'
+})
+```
+
+```html
+<div class="minitaur-modal">
+  <p>Hi, I'm a minitaur modal. :)</p>
+</div>
+```
+
+Will result in:
+
+```html
+<div class="minitaur-modal minitaur minitaur-template-myModal">
+  <div class="minitaur-content">
+    <p>Hi, I'm a minitaur modal. :)</p>
+  </div>
+  <button type="button" class="btn btn-primary" data-minitaur-close>Close Me</button>
+</div>
+```
+
+*Tip: When using templates, your content gets wrapped in a div with the `minitaur-content` class. To use something other than a div, wrap the `{minitaur-content}` in an element of your choice with the `minitaur-content` class when setting the template content in the `minitaur.templates` object. For example: `<span class="minitaur-content">{minitaur-content}</span>`*
+
+
 ##### `triggers`
 
 Default: `[]`
@@ -474,6 +512,7 @@ minitaur({
   stayInBounds: true,
   style: null,
   takeover: false,
+  template: null,
   triggers: []
 })
 ```

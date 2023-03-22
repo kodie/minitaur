@@ -185,6 +185,7 @@ minitaur.defaultOptions = {
   stayInBounds: true,
   style: null,
   takeover: false,
+  template: null,
   triggers: []
 }
 
@@ -666,6 +667,33 @@ minitaur.open = (modals, options) => {
         if (modal.innerHTML !== opts.content) {
           modal.innerHTML = opts.content
         }
+      }
+
+      if (opts.template && minitaur.templates[opts.template]) {
+        const templateContentElement = modal.querySelector('.minitaur-content')
+        let templateContent = modal.innerHTML
+        let template = minitaur.templates[opts.template]
+
+        if (templateContentElement) {
+          templateContent = templateContentElement.innerHTML
+        }
+
+        if (typeof template === 'function') {
+          template = template(modal)
+        }
+
+        const templateClone = document.createElement('div')
+        templateClone.innerHTML = template
+        const templateHasContentElement = !!templateClone.querySelector('.minitaur-content')
+        templateClone.remove()
+
+        if (!templateHasContentElement) {
+          templateContent = `<div class="minitaur-content">${templateContent}</div>`
+        }
+
+        modal.classList.remove.apply(modal.classList, Array.from(modal.classList).filter(c => c.startsWith('minitaur-template-')))
+        modal.classList.add('minitaur-template-' + opts.template)
+        modal.innerHTML = template.replace('{minitaur-content}', templateContent)
       }
 
       if (opts.parameters) {
@@ -1245,5 +1273,7 @@ minitaur.triggerEvent = (e) => {
     }
   }
 }
+
+minitaur.templates = {}
 
 export default minitaur
