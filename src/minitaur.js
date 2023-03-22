@@ -141,6 +141,7 @@ const minitaur = (mount, options) => {
 
 minitaur.initiated = false
 minitaur.modalCount = 0
+minitaur.templates = {}
 
 minitaur.defaultOptions = {
   afterClose: null,
@@ -1273,7 +1274,5 @@ minitaur.triggerEvent = (e) => {
     }
   }
 }
-
-minitaur.templates = {}
 
 export default minitaur
