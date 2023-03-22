@@ -492,8 +492,14 @@ minitaur({
     },
     {
       action: 'close',
-      elements: '.closes-modal-when-unhovered',
-      events: 'mouseout'
+      elements: [
+        '.closes-modal-when-unhovered-or-clicked',
+        '.also-closes-modal-when-unhovered-or-clicked'
+      ],
+      events: [
+        'mouseout',
+        'click'
+      ]
     }
   ]
 })
