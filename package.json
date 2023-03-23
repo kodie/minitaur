@@ -31,9 +31,13 @@
     "url": "https://github.com/kodie/minitaur/issues"
   },
   "homepage": "https://kodie.github.io/minitaur",
+  "license": "MIT",
   "main": "dist/minitaur.js",
   "module": "src/minitaur.js",
-  "license": "MIT",
+  "files": [
+    "dist/*",
+    "src/*"
+  ],
   "scripts": {
     "build": "npm run test && npm run build-js && npm run minify-js",
     "build-js": "rollup --config rollup.config.js",
