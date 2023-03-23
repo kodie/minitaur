@@ -30,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/kodie/minitaur/issues"
   },
-  "homepage": "https://kodie.github.io/minitaur",
+  "homepage": "https://minitaur.js.org",
   "license": "MIT",
   "main": "dist/minitaur.js",
   "module": "src/minitaur.js",

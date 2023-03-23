@@ -11,7 +11,7 @@ The ultimate, dependency-free, easy to use, JavaScript plugin for creating and m
 
 ## Demo
 
-Visit https://kodie.github.io/minitaur
+Visit https://minitaur.js.org
 
 
 ## Installation
