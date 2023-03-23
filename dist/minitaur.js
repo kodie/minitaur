@@ -63,7 +63,7 @@
   }
 
   /*!
-    minitaur v0.1.1 (https://github.com/kodie/minitaur)
+    minitaur v0.2.0 (https://github.com/kodie/minitaur)
     by Kodie Grantham (https://kodieg.com)
   */
   var minitaur = function minitaur(mount, options) {
@@ -199,6 +199,7 @@
 
   minitaur.initiated = false;
   minitaur.modalCount = 0;
+  minitaur.templates = {};
   minitaur.defaultOptions = {
     afterClose: null,
     afterInit: null,
@@ -242,6 +243,7 @@
     stayInBounds: true,
     style: null,
     takeover: false,
+    template: null,
     triggers: []
   };
 
@@ -715,6 +717,39 @@
           if (modal.innerHTML !== opts.content) {
             modal.innerHTML = opts.content;
           }
+        }
+
+        if (opts.template) {
+          var templateContentElement = modal.querySelector('.minitaur-content');
+          var templateContent = modal.innerHTML;
+          var template = minitaur.templates[opts.template] || opts.template;
+
+          if (templateContentElement) {
+            templateContent = templateContentElement.innerHTML;
+          }
+
+          if (typeof template === 'function') {
+            template = template(modal);
+          }
+
+          var templateClone = document.createElement('div');
+          templateClone.innerHTML = template;
+          var templateHasContentElement = !!templateClone.querySelector('.minitaur-content');
+          templateClone.remove();
+
+          if (!templateHasContentElement) {
+            templateContent = "<div class=\"minitaur-content\">".concat(templateContent, "</div>");
+          }
+
+          modal.classList.remove.apply(modal.classList, Array.from(modal.classList).filter(function (c) {
+            return c.startsWith('minitaur-template-');
+          }));
+
+          if (minitaur.templates[opts.template]) {
+            modal.classList.add('minitaur-template-' + opts.template);
+          }
+
+          modal.innerHTML = template.replace('{minitaur-content}', templateContent);
         }
 
         if (opts.parameters) {
