@@ -583,6 +583,7 @@ minitaur({
     visibility: 'visible'
   },
   openStyle: null,
+  overrides: null,
   parameters: null,
   position: 'middle',
   respectAnchorSpacing: false,
