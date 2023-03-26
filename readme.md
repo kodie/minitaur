@@ -239,7 +239,22 @@ A function to run before the modal has been opened. Receives the modal instance 
 
 Default: `null`
 
-An `Object` of options that are set depending on the browser window's width. Accepts an object containing numeric strings as keys (the browser width breakpoint) set to objects containing keys of other options to be set if the browser's width matches the breakpoint. Accepts an `Object`.
+An `Object` of options that are set depending on the browser window's width. Accepts an object containing numeric strings as keys (the browser width breakpoint in pixels) set to objects containing keys of other options to be set if the browser's width matches or exceeds the breakpoint. Accepts an `Object`.
+
+Example:
+
+```js
+minitaur({
+  breakpoints: {
+    '600': {
+      content: 'Your browser window is at least 600 pixels wide'
+    },
+    '1200': {
+      content: 'Your browser window is at least 1200 pixels wide'
+    }
+  }
+})
+```
 
 
 ##### `class`
@@ -356,6 +371,27 @@ The style to apply to the modal while it is being opened. Accepts an `Object` of
 Default: `null`
 
 The style to apply to the modal after it has been opened. Accepts an `Object` of keys and values that will be applied to the `style` property of the modal or `null` to not apply any styling.
+
+
+##### `overrides`
+
+Default: `null`
+
+An `Object` of options that are set for specific minitaur instances. Accepts an object containing strings as keys (a selector string that is passed to modal.[matches](https://developer.mozilla.org/en-US/docs/Web/API/Element/matches)()) set to objects containing keys of other options to be set if the modal matches the selector. Accepts an `Object`.
+
+Example:
+
+```js
+minitaur({
+  overrides: {
+    '.my-special-modal': {
+      afterOpen: function () {
+        alert('You opened my special modal.')
+      }
+    }
+  }
+})
+```
 
 
 ##### `parameters`

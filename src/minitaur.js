@@ -180,6 +180,7 @@ minitaur.defaultOptions = {
     visibility: 'visible'
   },
   openStyle: null,
+  overrides: null,
   parameters: null,
   position: 'middle',
   respectAnchorSpacing: false,
@@ -351,6 +352,16 @@ minitaur.get = (elements, parseBreakpoints, verify) => {
   for (let i = 0; i < elements.length; i++) {
     (function (modal) {
       let opts = minitaur.mergeObjects(modal.minitaur, { element: modal })
+
+      if (opts.overrides) {
+        for (let selector in opts.overrides) {
+          if (modal.matches(selector)) {
+            opts = minitaur.mergeObjects(opts, opts.overrides[selector])
+          }
+        }
+
+        delete opts.overrides
+      }
 
       if (parseBreakpoints && opts.breakpoints) {
         let breakpointOpts = null
