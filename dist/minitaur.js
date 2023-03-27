@@ -63,7 +63,7 @@
   }
 
   /*!
-    minitaur v0.2.0 (https://github.com/kodie/minitaur)
+    minitaur v0.2.1 (https://minitaur.js.org)
     by Kodie Grantham (https://kodieg.com)
   */
   var minitaur = function minitaur(mount, options) {
@@ -158,7 +158,7 @@
           }
 
           minitaur.setStyle(modal, minitaur.mergeObjects(opts.style || {}, opts.closeStyle || {}));
-          minitaur.initiateTriggers(modal);
+          minitaur.initializeTriggers(modal);
 
           if (!modal.parentNode) {
             document.body.appendChild(modal);
@@ -179,8 +179,8 @@
       }
     }
 
-    if (!minitaur.initiated) {
-      minitaur.initiated = true;
+    if (!minitaur.initialized) {
+      minitaur.initialized = true;
       document.addEventListener('click', minitaur.documentClick);
       window.addEventListener('resize', minitaur.documentResize);
       window.addEventListener('scroll', minitaur.documentScroll);
@@ -197,7 +197,7 @@
     return false;
   };
 
-  minitaur.initiated = false;
+  minitaur.initialized = false;
   minitaur.modalCount = 0;
   minitaur.templates = {};
   minitaur.defaultOptions = {
@@ -237,6 +237,7 @@
       visibility: 'visible'
     },
     openStyle: null,
+    overrides: null,
     parameters: null,
     position: 'middle',
     respectAnchorSpacing: false,
@@ -271,12 +272,12 @@
 
     for (var i = 0; i < modals.length; i++) {
       (function (modal) {
-        if (options) modal.minitaur.set(options);
-        var opts = minitaur.get(modal, true, false);
+        var opts = minitaur.parseOptions(minitaur.mergeObjects(minitaur.get(modal, true, false), modal.minitaurTempOpts || {}, options || {}));
+        delete modal.minitaurTempOpts;
         if (window.minitaurDebug) console.log('minitaur.close (#' + modal.id + '):', opts);
         minitaur.clearTimers(modal);
 
-        if (opts.beforeClose && opts.beforeClose(modal) === false) {
+        if (opts.beforeClose && opts.beforeClose(modal, opts) === false) {
           return false;
         }
 
@@ -324,7 +325,7 @@
           }));
 
           if (opts.afterClose) {
-            opts.afterClose(modal);
+            opts.afterClose(modal, opts);
           }
         }, opts.closeDuration || 0);
       })(modals[i]);
@@ -395,6 +396,16 @@
           element: modal
         });
 
+        if (opts.overrides) {
+          for (var selector in opts.overrides) {
+            if (modal.matches(selector)) {
+              opts = minitaur.mergeObjects(opts, opts.overrides[selector]);
+            }
+          }
+
+          delete opts.overrides;
+        }
+
         if (parseBreakpoints && opts.breakpoints) {
           var breakpointOpts = null;
 
@@ -459,7 +470,7 @@
     return elements;
   };
 
-  minitaur.initiateTriggers = function (modals) {
+  minitaur.initializeTriggers = function (modals) {
     modals = minitaur.getModals(modals, true);
     var actions = ['close', 'open', 'toggle'];
 
@@ -663,7 +674,7 @@
       document.removeEventListener('click', minitaur.documentClick);
       window.removeEventListener('resize', minitaur.documentResize);
       window.removeEventListener('scroll', minitaur.documentScroll);
-      minitaur.initiated = false;
+      minitaur.initialized = false;
     }
   };
 
@@ -700,12 +711,12 @@
 
     for (var i = 0; i < modals.length; i++) {
       (function (modal) {
-        if (options) modal.minitaur.set(options);
-        var opts = minitaur.get(modal, true, false);
+        var opts = minitaur.parseOptions(minitaur.mergeObjects(minitaur.get(modal, true, false), options || {}));
+        modal.minitaurTempOpts = opts;
         if (window.minitaurDebug) console.log('minitaur.open (#' + modal.id + '):', opts);
         minitaur.clearTimers(modal);
 
-        if (opts.beforeOpen && opts.beforeOpen(modal) === false) {
+        if (opts.beforeOpen && opts.beforeOpen(modal, opts) === false) {
           return false;
         }
 
@@ -807,13 +818,13 @@
           }
 
           minitaur.setDimensions(modal, opts);
-          minitaur.initiateTriggers(modal);
+          minitaur.initializeTriggers(modal);
           modal.dispatchEvent(new Event('open', {
             bubbles: true
           }));
 
           if (opts.afterOpen) {
-            opts.afterOpen(modal);
+            opts.afterOpen(modal, opts);
           }
         }, opts.openDuration || 0);
       })(modals[i]);
@@ -849,7 +860,8 @@
           var objProp = property.substring(0, objKey.length);
 
           if (objProp.length !== property.length && objProp.toLowerCase() === objKey.toLowerCase()) {
-            var objPropKey = property.substring(objKey.length).toLowerCase();
+            var objPropKey = property.substring(objKey.length);
+            objPropKey = objPropKey[0].toLowerCase() + objPropKey.slice(1);
 
             if (!opts[objKey]) {
               opts[objKey] = {};
@@ -932,8 +944,8 @@
   minitaur.setDimensions = function (modal, options, final) {
     var opts = minitaur.get(modal, true, false);
     opts = minitaur.mergeObjects(opts, options || {});
-    if (!opts.anchor.x) opts.anchor.x = opts.triggerElement || document.body;
-    if (!opts.anchor.y) opts.anchor.y = opts.triggerElement || document.body;
+    if (!opts.anchor.x) opts.anchor.x = opts.triggeredElement || document.body;
+    if (!opts.anchor.y) opts.anchor.y = opts.triggeredElement || document.body;
     var anchorXElement = null;
     var anchorYElement = null;
 
@@ -1301,7 +1313,8 @@
     var actions = ['close', 'open', 'toggle'];
     var triggerElement = e.currentTarget;
     var opts = minitaur.mergeObjects(minitaur.parseAttributes(triggerElement.dataset), {
-      triggerElement: triggerElement
+      triggeredElement: triggerElement,
+      triggeredEvent: e
     });
 
     for (var i = 0; i < actions.length; i++) {
