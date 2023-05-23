@@ -774,8 +774,6 @@ minitaur.open = (modals, options) => {
         })
 
         document.body.insertBefore(backdrop, modal)
-      } else {
-        minitaur.setStyle(document.body, { position: 'relative' })
       }
 
       modal.minitaur.openDurationTimer = setTimeout(function () {
