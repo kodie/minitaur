@@ -425,6 +425,20 @@ Set to `true` to have the anchor element's margin/padding calculated when settin
 The modal's own margin/padding is always respected.
 
 
+##### `saveOptions`
+
+Default: `true`
+
+Set to `false` to have options passed to the `minitaur.open` and `minitaur.close` functions not save, making them only relevant that single instance of opening/closing the modal.
+
+
+##### `saveParameters`
+
+Default: `true`
+
+Set to `false` to have `options.parameters` passed to the `minitaur.open` and `minitaur.close` functions not save, making them only relevant that single instance of opening/closing the modal.
+
+
 ##### `stayInBounds`
 
 Default: `true`
@@ -587,6 +601,8 @@ minitaur({
   parameters: null,
   position: 'middle',
   respectAnchorSpacing: false,
+  saveOptions: true,
+  saveParameters: true,
   stayInBounds: true,
   style: null,
   takeover: false,

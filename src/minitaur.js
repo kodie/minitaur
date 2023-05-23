@@ -184,6 +184,8 @@ minitaur.defaultOptions = {
   parameters: null,
   position: 'middle',
   respectAnchorSpacing: false,
+  saveOptions: true,
+  saveParameters: true,
   stayInBounds: true,
   style: null,
   takeover: false,
@@ -216,6 +218,12 @@ minitaur.close = (modals, options) => {
   for (let i = 0; i < modals.length; i++) {
     (function (modal) {
       const opts = minitaur.parseOptions(minitaur.mergeObjects(minitaur.get(modal, true, false), modal.minitaurTempOpts || {}, options || {}))
+
+      if (options && opts.saveOptions) {
+        modal.minitaur.set(Object.assign({}, options, {
+          parameters: options.parameters && opts.saveParameters ? options.parameters : {}
+        }))
+      }
 
       delete modal.minitaurTempOpts
 
@@ -660,6 +668,12 @@ minitaur.open = (modals, options) => {
   for (let i = 0; i < modals.length; i++) {
     (function (modal) {
       const opts = minitaur.parseOptions(minitaur.mergeObjects(minitaur.get(modal, true, false), options || {}))
+
+      if (options && opts.saveOptions) {
+        modal.minitaur.set(Object.assign({}, options, {
+          parameters: options.parameters && opts.saveParameters ? options.parameters : {}
+        }))
+      }
 
       modal.minitaurTempOpts = opts
 
