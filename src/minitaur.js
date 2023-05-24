@@ -1,5 +1,5 @@
 /*!
-  minitaur v0.2.1 (https://minitaur.js.org)
+  minitaur v0.3.0 (https://minitaur.js.org)
   by Kodie Grantham (https://kodieg.com)
 */
 

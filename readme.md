@@ -31,7 +31,7 @@ Download [dist/minitaur.min.js](dist/minitaur.min.js) and place the following HT
 Place the following HTML in your page's head element (check to make sure the version in the URL is the version you want):
 
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kodie/minitaur@0.0.2/dist/minitaur.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kodie/minitaur@0.3.0/dist/minitaur.min.js"></script>
 ```
 
 
