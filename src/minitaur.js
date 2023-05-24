@@ -141,6 +141,8 @@ const minitaur = (mount, options) => {
 
 minitaur.initialized = false
 minitaur.modalCount = 0
+minitaur.scrollX = 0
+minitaur.scrollY = 0
 minitaur.templates = {}
 
 minitaur.defaultOptions = {
@@ -258,11 +260,7 @@ minitaur.close = (modals, options) => {
           minitaur.setStyle(backdrop, opts.backdropClosingStyle || {})
 
           minitaur.setStyle(document.body, {
-            position: 'relative',
-            left: null,
-            top: null,
-            height: null,
-            width: null
+            'overscroll-behavior': null
           })
 
           window.scrollTo(scrollX, scrollY)
@@ -278,6 +276,7 @@ minitaur.close = (modals, options) => {
         if (opts.takeover && backdrop) {
           document.body.removeChild(backdrop)
           window.addEventListener('scroll', minitaur.documentScroll)
+          window.removeEventListener('scroll', minitaur.documentPreventScroll)
         }
 
         minitaur.setStyle(modal, minitaur.mergeObjects(opts.style || {}, opts.closeStyle || {}))
@@ -321,35 +320,60 @@ minitaur.documentClick = (e) => {
 minitaur.documentResize = (e) => {
   minitaur.clearTimers()
 
-  minitaur.resizeTimer = setTimeout(function () {
-    const elements = minitaur.getModals('[data-minitaur]', true)
+  setTimeout(function () {
+    const disableAnimations = document.createElement('style')
+    disableAnimations.type = 'text/css'
+    disableAnimations.innerHTML = '* { transition: none !important; }'
+    document.getElementsByTagName('head')[0].appendChild(disableAnimations)
 
-    for (let i = 0; i < elements.length; i++) {
-      (function (modal) {
-        if (modal.minitaur.isOpen) {
-          modal.minitaur.open()
-        }
-      })(elements[i])
-    }
-  }, 60)
+    minitaur.resizeTimer = setTimeout(function () {
+      const elements = minitaur.getModals('[data-minitaur]', true)
+
+      for (let i = 0; i < elements.length; i++) {
+        (function (modal) {
+          const opts = modal.minitaur
+
+          if (opts.isOpen) {
+            minitaur.setDimensions(modal)
+
+            if (opts.takeover) {
+              window.scrollTo(minitaur.scrollX, minitaur.scrollY)
+            }
+          }
+        })(elements[i])
+      }
+
+      disableAnimations.remove()
+
+      if (e) {
+        minitaur.documentResize()
+      }
+    }, 60)
+  }, 1)
 }
 
 minitaur.documentScroll = (e) => {
   minitaur.clearTimers()
 
-  minitaur.resizeTimer = setTimeout(function () {
-    const elements = minitaur.getModals('[data-minitaur]', true)
+  setTimeout(function () {
+    minitaur.resizeTimer = setTimeout(function () {
+      const elements = minitaur.getModals('[data-minitaur]', true)
 
-    for (let i = 0; i < elements.length; i++) {
-      (function (modal) {
-        const opts = modal.minitaur
+      for (let i = 0; i < elements.length; i++) {
+        (function (modal) {
+          const opts = modal.minitaur
 
-        if (opts.isOpen && !opts.takeover && (opts.anchor.x === 'viewport' || opts.anchor.y === 'viewport')) {
-          modal.minitaur.open()
-        }
-      })(elements[i])
-    }
-  }, 60)
+          if (opts.isOpen && !opts.takeover && (opts.anchor.x === 'viewport' || opts.anchor.y === 'viewport')) {
+            minitaur.setDimensions(modal)
+          }
+        })(elements[i])
+      }
+    }, 60)
+  }, 1)
+}
+
+minitaur.documentPreventScroll = (e) => {
+  window.scrollTo(minitaur.scrollX, minitaur.scrollY)
 }
 
 minitaur.get = (elements, parseBreakpoints, verify) => {
@@ -743,6 +767,10 @@ minitaur.open = (modals, options) => {
       let backdrop = null
 
       if (opts.takeover && !document.querySelector('#' + modal.id + '-backdrop')) {
+        minitaur.scrollX = window.scrollX
+        minitaur.scrollY = window.scrollY
+
+        window.addEventListener('scroll', minitaur.documentPreventScroll)
         window.removeEventListener('scroll', minitaur.documentScroll)
 
         minitaur.close('[data-minitaur][data-minitaur-taking-over]')
@@ -757,7 +785,7 @@ minitaur.open = (modals, options) => {
         backdrop.classList.add(opts.openingClass)
 
         minitaur.setStyle(backdrop, minitaur.mergeObjects({
-          position: 'absolute',
+          position: 'fixed',
           left: '0px',
           top: '0px',
           right: '0px',
@@ -766,11 +794,7 @@ minitaur.open = (modals, options) => {
         }, opts.backdropOpeningStyle || {}))
 
         minitaur.setStyle(document.body, {
-          position: 'fixed',
-          left: '-' + window.scrollX + 'px',
-          top: '-' + window.scrollY + 'px',
-          height: document.body.clientHeight + 'px',
-          width: document.body.clientWidth + 'px'
+          'overscroll-behavior': 'none'
         })
 
         document.body.insertBefore(backdrop, modal)
@@ -1006,15 +1030,6 @@ minitaur.setDimensions = (modal, options, final) => {
     anchorYWidth = window.innerWidth
     anchorYHeight = window.innerHeight
     boundaryY = anchorYHeight + window.scrollY
-  }
-
-  if (opts.takeover) {
-    anchorXLeft = 0 - parseInt(document.body.style.left || '0')
-    anchorXTop = 0 - parseInt(document.body.style.top || '0')
-    anchorYLeft = 0 - parseInt(document.body.style.left || '0')
-    anchorYTop = 0 - parseInt(document.body.style.top || '0')
-    boundaryX = anchorXLeft + window.innerWidth
-    boundaryY = anchorYTop + window.innerHeight
   }
 
   if (anchorXElement === document.body) {
