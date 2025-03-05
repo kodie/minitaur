@@ -8,6 +8,8 @@
 
 The ultimate, dependency-free, easy to use, JavaScript plugin for creating and managing modals.
 
+**WARNING: This project has been deprecated and will no longer recieve support or updates. Feel free to fork the code if you wish to continue using/maintaining it.**
+
 
 ## Demo
 
